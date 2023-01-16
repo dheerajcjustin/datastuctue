@@ -58,7 +58,7 @@ class BTS {
         if (node.right === null) {
           return node.left;
         }
-        
+
         let tempNode = node.right;
         while (tempNode.left != null) {
           tempNode = tempNode.left;
@@ -76,6 +76,42 @@ class BTS {
       }
     };
     this.root = deleteNode(this.root, data);
+  }
+  minNode(node) {
+    while (node.left !== null) {
+      node = node.left;
+    }
+    return node;
+  }
+  remove(data) {
+    this.root = this.removeNode(this.root, data);
+  }
+  removeNode(node, data) {
+    //treeil onum ila
+    if (node === null) return node;
+    //when data and node data same akkubole
+    if (node.data === data) {
+      //no childe method
+      if (node.left === null && node.right === null) {
+        return null;
+        // signl node left or ritht
+      } else if (node.right === null) return node.left;
+      else if (node.left === null) return node.right;
+      //both node has elments
+      else {
+        let tempNode = this.minNode(node.right);
+        node.data = tempNode.data;
+        node.right = this.removeNode(node.right, tempNode.data);
+        return node;
+      }
+    } // data less than or greater tha n
+    else if (data < node.data) {
+      node.left = this.removeNode(node.left, data);
+      return node;
+    } else {
+      node.right = this.removeNode(node.right, data);
+      return node;
+    }
   }
 }
 
@@ -109,7 +145,7 @@ bts.addNode(67);
 bts.addNode(88);
 bts.traversal(preOrder);
 
-bts.delete(56);
+bts.remove(56);
 console.log("after delete");
 
 bts.traversal(preOrder);
